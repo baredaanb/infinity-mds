@@ -24,9 +24,10 @@ export default function middleware(req: NextRequest) {
   const baseDomain = isLocal ? hostname : process.env.NEXT_PUBLIC_ROOT_DOMAIN || 'infinitysolution.com';
   
   // 2. Multi-Tenant Subdomain Routing
-  // If the request is for a custom subdomain (not the root, not www)
+  // If the request is for a custom subdomain (not the root, not www, and not a vercel preview domain)
   if (
     !isBaseLocal &&
+    !hostname.includes('vercel.app') &&
     hostname !== baseDomain &&
     hostname !== `www.${baseDomain}`
   ) {
