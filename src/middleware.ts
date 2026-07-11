@@ -41,12 +41,8 @@ export default function middleware(req: NextRequest) {
     return NextResponse.rewrite(new URL(newPath, req.url));
   }
   
-  if (isBaseLocal) {
-    return NextResponse.next();
-  }
-  
-  // 3. Fallback to i18n middleware for the primary root domain marketing pages
-  return intlMiddleware(req);
+  // 3. Temporarily bypass i18n middleware since [locale] routing is not yet implemented
+  return NextResponse.next();
 }
 
 export const config = {
