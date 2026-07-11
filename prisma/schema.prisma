@@ -1,0 +1,181 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// -----------------------------------------------------
+// Core Entities (Phase 1)
+// -----------------------------------------------------
+
+model User {
+  id             String    @id @default(uuid())
+  email          String    @unique
+  role           Role      @default(CLIENT)
+  authProvider   String    @default("LOCAL") // LOCAL, GOOGLE, LINKEDIN
+  mfaEnabled     Boolean   @default(false)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  clientProfile  Client?
+  messages       Message[]
+  notifications  Notification[]
+  posts          BlogPost[]     @relation("AuthorPosts")
+}
+
+enum Role {
+  VISITOR
+  CLIENT
+  ACCOUNT_MANAGER
+  ADMIN
+  SUPER_ADMIN
+}
+
+model Client {
+  id              String    @id @default(uuid())
+  userId          String    @unique
+  user            User      @relation(fields: [userId], references: [id])
+  companyName     String
+  billingCountry  String
+  billingCurrency String    @default("USD")
+  
+  projects        Project[]
+  invoices        Invoice[]
+  subscriptions   Subscription[]
+  apiKeys         ApiKey[]
+}
+
+model Project {
+  id          String      @id @default(uuid())
+  clientId    String
+  client      Client      @relation(fields: [clientId], references: [id])
+  serviceType String
+  status      String      @default("ONBOARDING")
+  startDate   DateTime?
+  
+  milestones  Milestone[]
+  messages    Message[]
+}
+
+model Milestone {
+  id          String    @id @default(uuid())
+  projectId   String
+  project     Project   @relation(fields: [projectId], references: [id])
+  title       String
+  dueDate     DateTime?
+  status      String    @default("PENDING") // PENDING, IN_PROGRESS, REVIEW, APPROVED
+  
+  invoice     Invoice?
+}
+
+model Invoice {
+  id          String     @id @default(uuid())
+  clientId    String
+  client      Client     @relation(fields: [clientId], references: [id])
+  milestoneId String?    @unique
+  milestone   Milestone? @relation(fields: [milestoneId], references: [id])
+  amount      Float
+  currency    String
+  gateway     String     // STRIPE, RAZORPAY, PAYPAL
+  status      String     @default("DRAFT") // DRAFT, OPEN, PAID, VOID
+  pdfUrl      String?
+  createdAt   DateTime   @default(now())
+}
+
+model Subscription {
+  id                    String   @id @default(uuid())
+  clientId              String
+  client                Client   @relation(fields: [clientId], references: [id])
+  plan                  String
+  gatewaySubscriptionId String   @unique
+  status                String   // ACTIVE, PAST_DUE, CANCELED
+  renewalDate           DateTime
+  createdAt             DateTime @default(now())
+}
+
+model Lead {
+  id              String   @id @default(uuid())
+  name            String
+  email           String
+  company         String?
+  serviceInterest String?
+  source          String?
+  utmParams       Json?
+  status          String   @default("NEW") // NEW, CONTACTED, QUALIFIED, CONVERTED, LOST
+  createdAt       DateTime @default(now())
+}
+
+// -----------------------------------------------------
+// Phase 2 Extensions
+// -----------------------------------------------------
+
+// Secure Messaging / Comment Thread
+model Message {
+  id        String   @id @default(uuid())
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id])
+  senderId  String
+  sender    User     @relation(fields: [senderId], references: [id])
+  content   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+// Notification Center
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  type      String   // MILESTONE_UPDATE, INVOICE_GENERATED, NEW_MESSAGE
+  message   String
+  link      String?
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+// Insights (Blog CMS)
+model BlogPost {
+  id          String   @id @default(uuid())
+  title       String
+  slug        String   @unique
+  content     String   // HTML or Markdown content
+  category    String   // Service Pillar (e.g., SEO, AI_DEVELOPMENT)
+  authorId    String
+  author      User     @relation("AuthorPosts", fields: [authorId], references: [id])
+  status      String   @default("DRAFT") // DRAFT, PUBLISHED
+  publishedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// -----------------------------------------------------
+// Phase 4 Extensions (Public API)
+// -----------------------------------------------------
+
+model ApiKey {
+  id          String    @id @default(uuid())
+  clientId    String
+  client      Client    @relation(fields: [clientId], references: [id])
+  keyHash     String    @unique // Hashed key for security, never store plain text
+  name        String    // e.g., "ERP Production Key"
+  scopes      String[]  // e.g., ["read:invoices", "write:projects"]
+  lastUsedAt  DateTime?
+  expiresAt   DateTime?
+  revokedAt   DateTime?
+  createdAt   DateTime  @default(now())
+}
+
+model ApiUsageLog {
+  id          String   @id @default(uuid())
+  apiKeyId    String
+  endpoint    String
+  method      String
+  statusCode  Int
+  ipAddress   String?
+  timestamp   DateTime @default(now())
+}

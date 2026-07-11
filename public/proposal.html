@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business Proposal - Infinity Solution</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+    /* CSS Reset */
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'Outfit', sans-serif;
+        font-weight: 300;
+        font-size: 11pt;
+        line-height: 1.8;
+        color: #334155; /* Slate 700 */
+        background-color: #E2E8F0; /* Slate 200 - Midlight modern tone */
+        padding: 50px;
+        max-width: 8.5in;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    /* Subtle background glow effect */
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.08), transparent 50%),
+                    radial-gradient(circle at bottom left, rgba(236, 72, 153, 0.08), transparent 50%);
+        pointer-events: none;
+        z-index: -1;
+    }
+
+    /* Typography */
+    h1 {
+        font-size: 38pt;
+        font-weight: 600;
+        letter-spacing: -0.03em;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        background: linear-gradient(90deg, #4F46E5, #DB2777); /* Indigo to Pink */
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+        font-family: 'Space Mono', monospace;
+        font-size: 10pt;
+        color: #64748B;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        margin-bottom: 40px;
+    }
+
+    h2 {
+        font-size: 18pt;
+        font-weight: 600;
+        margin-bottom: 20px;
+        margin-top: 50px;
+        letter-spacing: 0.02em;
+        color: #0F172A;
+        display: flex;
+        align-items: baseline;
+    }
+
+    h2 .marker {
+        font-family: 'Space Mono', monospace;
+        font-size: 12pt;
+        color: #4F46E5;
+        margin-right: 15px;
+        font-weight: 700;
+    }
+
+    p {
+        margin-bottom: 15px;
+        color: #475569;
+        text-align: justify;
+    }
+
+    /* Header & Services Tags */
+    header {
+        border-bottom: 1px solid rgba(15, 23, 42, 0.1);
+        padding-bottom: 30px;
+        margin-bottom: 50px;
+    }
+
+    .services-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        font-family: 'Space Mono', monospace;
+        font-size: 9pt;
+    }
+
+    .tag {
+        background: rgba(79, 70, 229, 0.08);
+        border: 1px solid rgba(79, 70, 229, 0.25);
+        color: #4338CA;
+        padding: 6px 12px;
+        border-radius: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 700;
+    }
+
+    /* Highlight Box */
+    .highlight-box {
+        font-family: 'Space Mono', monospace;
+        font-size: 14pt;
+        line-height: 1.6;
+        border-left: 3px solid #DB2777;
+        background: linear-gradient(90deg, rgba(219, 39, 119, 0.08), transparent);
+        padding: 25px;
+        margin: 40px 0;
+        color: #1E293B;
+        border-radius: 0 8px 8px 0;
+    }
+
+    /* Table styling */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 40px 0;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    th {
+        font-family: 'Space Mono', monospace;
+        font-size: 10pt;
+        text-transform: uppercase;
+        font-weight: 700;
+        text-align: left;
+        border-bottom: 1px solid rgba(15, 23, 42, 0.1);
+        padding: 15px 20px;
+        color: #4F46E5;
+        background: rgba(255, 255, 255, 0.8);
+    }
+
+    td {
+        padding: 20px;
+        border-bottom: 1px solid rgba(15, 23, 42, 0.05);
+        vertical-align: top;
+        color: #334155;
+    }
+    
+    tr:last-child td {
+        border-bottom: none;
+    }
+
+    /* Footer */
+    footer {
+        margin-top: 80px;
+        padding-top: 25px;
+        border-top: 1px solid rgba(15, 23, 42, 0.1);
+        font-family: 'Space Mono', monospace;
+        font-size: 9pt;
+        display: flex;
+        justify-content: space-between;
+        color: #64748B;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+    }
+
+    /* Page breaks for PDF Engine */
+    @media print {
+        body {
+            padding: 0;
+            background-color: #E2E8F0 !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        .page-break {
+            page-break-before: always;
+        }
+    }
+
+    /* Responsive Design for Mobile Devices */
+    @media (max-width: 768px) {
+        body {
+            padding: 20px;
+        }
+        h1 {
+            font-size: 28pt;
+        }
+        h2 {
+            font-size: 15pt;
+        }
+        .highlight-box {
+            font-size: 12pt;
+            padding: 15px;
+        }
+        table {
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        footer {
+            flex-direction: column;
+            gap: 15px;
+        }
+        footer > div {
+            text-align: left !important;
+        }
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Infinity Solution</h1>
+    <div class="subtitle">Digital Transformation & Presence Architecture</div>
+    <div class="services-tags">
+        <span class="tag">360 Degree Virtual Tour</span>
+        <span class="tag">Social Marketing</span>
+        <span class="tag">App Development</span>
+        <span class="tag">Website Development</span>
+        <span class="tag">AI Services</span>
+    </div>
+</header>
+
+<div class="highlight-box">
+    "Transforming physical spaces into digital experiences and converting interactions into lasting business growth."
+</div>
+
+<section>
+    <h2><span class="marker">01.</span>The Power of 360 Tours</h2>
+    <p>In an increasingly digital-first world, static images no longer suffice to convey the depth and atmosphere of your physical locations. 360° Virtual Tours provide an immersive, interactive experience that allows potential clients and customers to step inside your business from anywhere on the globe.</p>
+    <p>This transparency builds immediate trust and significantly increases conversion rates. By removing geographical barriers, virtual tours ensure your space is always open, accessible, and ready to impress at a moment's notice.</p>
+</section>
+
+<section>
+    <h2><span class="marker">02.</span>Google Business Profile</h2>
+    <p>Your Google Business Profile (GBP) is often the first touchpoint between your brand and local customers. A highly optimized GBP serves as a powerful digital storefront, dictating how you appear in local searches and on Google Maps.</p>
+    <p>Integrating 360° tours directly into your GBP not only enhances visual appeal but also strongly signals to search algorithms that your business is active, transparent, and authoritative. This synergy drives increased organic traffic and higher footfall.</p>
+</section>
+
+<section>
+    <h2><span class="marker">03.</span>Social Media Presence</h2>
+    <p>A sophisticated social media strategy transcends mere content posting; it cultivates a loyal community around your brand. By distributing compelling visual assets—such as snippets of your virtual tours—across platforms, you create engaging narratives that resonate with your target audience.</p>
+    <p>Strategic social marketing amplifies your reach, fosters direct communication with consumers, and ultimately channels qualified leads to your website and physical locations.</p>
+</section>
+
+<div class="page-break"></div>
+
+<section>
+    <h2><span class="marker">04.</span>The Synergistic Ecosystem</h2>
+    <p>Our approach integrates these distinct services into a cohesive, self-reinforcing digital ecosystem designed for maximum impact.</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Component</th>
+                <th>Primary Function</th>
+                <th>Business Impact</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>360° Tours</td>
+                <td>Immersive visual exploration</td>
+                <td>Increases user retention and builds foundational trust.</td>
+            </tr>
+            <tr>
+                <td>GBP Optimization</td>
+                <td>Local search dominance</td>
+                <td>Drives organic discovery and physical foot traffic.</td>
+            </tr>
+            <tr>
+                <td>Social Marketing</td>
+                <td>Community engagement</td>
+                <td>Amplifies brand awareness and generates inbound leads.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section>
+    <h2><span class="marker">05.</span>Next Steps</h2>
+    <p>To initiate this transformation, our team will conduct a comprehensive audit of your current digital footprint. Following this assessment, we will deploy our specialized teams to capture your physical space, optimize your search profiles, and construct your social strategy.</p>
+    <p>Furthermore, as your operational complexity grows, Infinity Solution is uniquely positioned to elevate your internal processes. We specialize in custom app development, capable of modernizing legacy HTML-based order management systems by converting them into robust, high-performance native Android applications. This ensures that your back-end operations are as seamless and modern as your front-end customer experience.</p>
+</section>
+
+<footer>
+    <div>
+        <strong>Infinity Solution</strong><br>
+        2, Bank Colony, Nahar Sayyed Road, Mandsaur
+    </div>
+    <div style="text-align: right;">
+        9826299324<br>
+        <span style="text-transform: lowercase;">solinfi21@gmail.com</span>
+    </div>
+</footer>
+
+</body>
+</html>

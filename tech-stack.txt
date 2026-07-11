@@ -1,0 +1,32 @@
+Infinity Solution - Full Technology Stack
+=========================================
+
+1. Core Framework & Language
+----------------------------
+- Next.js (App Router)
+- React
+- TypeScript
+
+2. Styling & UI Design
+----------------------
+- Tailwind CSS (Utility-first styling)
+- Custom CSS Variables (Off-White Theme, Dark Accents)
+- Glassmorphism & Hairline Borders (CSS UI Patterns)
+
+3. Animation & Interactions
+---------------------------
+- Framer Motion (Page transitions, modal popups, hover animations)
+- Lucide React (SVG Icon Library)
+
+4. Key Components & Architecture
+--------------------------------
+- ProjectsShowcase: Dynamic grid with interactive Framer Motion presentation modals.
+- BundleBuilder: Interactive pricing/service selection calculator with dynamic state management.
+- KuulaViewer: Embedded iframe integration for external 360° virtual tours.
+- ChatbotWidget: Global floating AI assistant UI.
+
+5. Build & Tooling
+------------------
+- Node.js
+- npm / Turbopack (Next.js bundler)
+- PostCSS & Autoprefixer
