@@ -20,23 +20,24 @@ export async function generateStaticParams() {
 export const revalidate = 86400; // Revalidate every 24 hours
 
 interface Props {
-  params: {
+  params: Promise<{
     service: string;
     industry: string;
     location: string;
-  };
+  }>;
 }
 
 export async function generateMetadata({ params }: Props) {
+  const resolvedParams = await params;
   // Dynamically generate metadata tailored for long-tail SEO queries
   return {
-    title: `${capitalize(params.service)} for ${capitalize(params.industry)} in ${capitalize(params.location)} | Infinity Solution`,
-    description: `Leading ${capitalize(params.service)} agency helping ${capitalize(params.industry)} businesses in ${capitalize(params.location)} scale and grow.`,
+    title: `${capitalize(resolvedParams.service)} for ${capitalize(resolvedParams.industry)} in ${capitalize(resolvedParams.location)} | Infinity Solution`,
+    description: `Leading ${capitalize(resolvedParams.service)} agency helping ${capitalize(resolvedParams.industry)} businesses in ${capitalize(resolvedParams.location)} scale and grow.`,
   };
 }
 
 export default async function ProgrammaticSEOPage({ params }: Props) {
-  const { service, industry, location } = params;
+  const { service, industry, location } = await params;
 
   return (
     <main className="min-h-screen pt-24 pb-12">
