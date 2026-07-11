@@ -16,6 +16,7 @@
     "@types/three": "^0.185.0",
     "framer-motion": "^12.42.2",
     "htmlparser2": "^12.0.0",
+    "jose": "^6.2.3",
     "lucide-react": "^1.23.0",
     "next": "16.2.10",
     "next-intl": "^4.13.1",
