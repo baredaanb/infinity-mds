@@ -7,7 +7,7 @@ import { MessageSquare, X, Send, Bot } from "lucide-react";
 export default function ChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { role: "bot", content: "Hi! How can I help you with Infinity Solution's services today?" },
+    { role: "bot", content: "Hi! I am Neo. How can I help you with Infinity Solution's services today?" },
   ]);
   const [inputValue, setInputValue] = useState("");
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
@@ -33,7 +33,7 @@ export default function ChatbotWidget() {
         ...prev,
         {
           role: "bot",
-          content: "Thanks for reaching out! I'm an AI assistant. To better assist you, could you please provide your email or would you like to book a discovery call?",
+          content: "Thanks for reaching out! I'm Neo, your AI assistant. To better assist you, could you please provide your email or would you like to book a discovery call?",
         },
       ]);
     }, 1000);
@@ -58,7 +58,7 @@ export default function ChatbotWidget() {
                   <Bot size={18} />
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-[var(--text-primary)]">Infinity Assistant</h3>
+                  <h3 className="text-sm font-semibold text-[var(--text-primary)]">Neo</h3>
                   <p className="text-xs text-[var(--text-secondary)]">Typically replies instantly</p>
                 </div>
               </div>
@@ -120,13 +120,15 @@ export default function ChatbotWidget() {
 
       {/* Toggle Button */}
       <motion.button
+        animate={!isOpen ? { rotate: 360 } : { rotate: 0 }}
+        transition={!isOpen ? { repeat: Infinity, duration: 4, ease: "linear" } : { duration: 0.3 }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}
         className="w-14 h-14 rounded-full bg-[var(--accent-primary)] text-white flex items-center justify-center shadow-lg hover:bg-[var(--accent-vibrant)] transition-colors ml-auto"
         aria-label="Toggle Chat"
       >
-        {isOpen ? <X size={24} /> : <MessageSquare size={24} />}
+        {isOpen ? <X size={24} className="transform-none" /> : <MessageSquare size={24} />}
       </motion.button>
     </div>
   );

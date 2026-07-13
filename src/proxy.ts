@@ -22,6 +22,26 @@ export default function middleware(req: NextRequest) {
   const isBaseLocal = isLocal && (baseHost === 'localhost' || baseHost === '127.0.0.1');
   
   const baseDomain = isLocal ? hostname : process.env.NEXT_PUBLIC_ROOT_DOMAIN || 'infinitysolution.com';
+
+  // --- AUTHENTICATION LOGIC ---
+  const authToken = req.cookies.get('auth_token');
+  const isAuth = authToken?.value === 'true';
+
+  // Avoid redirect loops on API and static assets
+  const isPublicAsset = url.pathname.startsWith('/api') || url.pathname.startsWith('/_next');
+
+  if (!isPublicAsset) {
+    if (!isAuth && url.pathname !== '/') {
+      // If NOT logged in, redirect everything to the login page (root)
+      return NextResponse.redirect(new URL('/', req.url));
+    }
+
+    if (isAuth && url.pathname === '/') {
+      // If logged in, redirect root to /home
+      return NextResponse.redirect(new URL('/home', req.url));
+    }
+  }
+  // ----------------------------
   
   // 2. Multi-Tenant Subdomain Routing
   // If the request is for a custom subdomain (not the root, not www, and not a vercel preview domain)
